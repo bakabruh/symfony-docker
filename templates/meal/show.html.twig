@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ meal.title }}{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+    {% if app.user != meal.chef and userOrder is null %}
+        <a href="{{ path('meal_order', {'id': meal.id}) }}" class="btn btn-primary">Commander une part</a>
+    {% endif %}
+
+    {% if userOrder %}
+        <a href="{{ path('meal_cancel_order', {'id': userOrder.id}) }}" class="btn btn-danger">Annuler ma commande</a>
+    {% endif %}
+
+<div class="example-wrapper">
+    <p>
+        <strong>{{ meal.title }}</strong> par {{ meal.chef.fullName }}
+    </p>
+    <h2>Parts restantes : {{ meal.remainingShares }} / {{ meal.shares }}</h2>
+
+    <h2>Commandes</h2>
+    <ul>
+        {% for order in meal.orders %}
+            <li>{{ order.customer.fullName }}</li>
+        {% endfor %}
+    </ul>
+
+    <ul>
+        <li>{{ meal.title }}</li>
+        <li>{{ meal.allergen }}</li>
+        <li>{{ meal.chef }}</li>
+        <li>{{ meal.ingredients }}</li>
+        <li>{{ meal.place }}</li>
+        <li>{{ meal.time|date }}</li>
+        <li>{{ meal.cutlery }}</li>
+        <li>{{ meal.container }}</li>
+        <li>{{ meal.shares }}</li>
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un plat{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="
+    flex flex-col items-center justify-center space-y-4
+    bg-white
+    px-6 py-8 mx-auto">
+    <div class="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
+        <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+            <h1 class="text-xl md:text-3xl text-center font-bold">
+                Ajouter un plat
+            </h1>
+            {{ form_start(form, {
+                'attr': {
+                    'class': 'flex flex-col space-y-4 md:space-y-6'
+                }
+            }) }}
+                {% for child in form.children %}
+                {% if child.vars.id != form._token.vars.id %}
+                    <div>
+                        {% if child.vars.value == "1" %}
+                            <div class="flex items-center gap-x-2">
+                                {{ form_widget(child, {
+                                    'attr': {
+                                        'class': 'w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500'
+                                    }
+                                }) }}
+                                {{ form_label(child, null, {
+                                    'label_attr': {
+                                        'class': 'block text-sm font-medium'
+                                    }
+                                }) }} 
+                            </div>                
+                        {% else %}
+                            {{ form_label(child, null, {
+                                'label_attr': {
+                                    'class': 'block mb-2 text-sm font-medium'
+                                }
+                            }) }}
+                            {{ form_widget(child, {
+                                'attr': {
+                                    'class': 'bg-zinc-50 border border-zinc-300 sm:text-sm rounded-lg block w-full p-2.5',
+                                    'placeholder': child.vars.attr.placeholder ?? ''
+                                }
+                            }) }}
+                        {% endif %}
+                    </div>
+                {% endif %}
+                {% endfor %}
+                <button class="btn btn-blue" type="submit">
+                    Valider
+                </button>
+                <input type="hidden" name="_csrf_token"
+                    value="{{ csrf_token('authenticate') }}"
+                >
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

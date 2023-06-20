@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Menu{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div>
+    <h1 class="
+    text-center uppercase font-bold 
+    text-xl md:text-2xl lg:text-[36px]
+    m-3 p-5 bg-zinc-800 text-white rounded-md">
+        Découvre les bons plats de tes camarades !
+    </h1>
+</div>
+
+<div class="
+    container flex flex-col
+    mx-3">
+    <h2 class="text-md lg:text-xl">
+        Les derniers plats ajoutés:
+    </h2>
+    <div class="grid grid-cols-3 md:grid-cols-4 gap-4">
+        <div class="bg-zinc-800 shadow-md rounded-lg cursor-pointer" onclick="window.location.href = '{{ path('meal_new') }}'">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M240 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H32c-17.7 0-32 14.3-32 32s14.3 32 32 32H176V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H384c17.7 0 32-14.3 32-32s-14.3-32-32-32H240V80z"/></svg>
+        </div>
+        {% for meal in meals %}
+            <div class="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer" onclick="window.location.href = '{{ path('meal_show', {'id': meal.id}) }}'">
+                <div class="bg-cover bg-center h-56 p-4" style="background-image: url({{ meal.image }})">
+                    <h1 class="text-white font-bold text-2xl">{{ meal.title }}</h1>
+                </div>
+                <div class="p-4">
+                    <h1 class="text-gray-700 font-bold text-2xl">{{ meal.title }}</h1>
+                    <p class="capitalize mt-1 text-gray-600 text-sm">{{ meal.time|format_datetime('full', 'short', locale='fr') }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
